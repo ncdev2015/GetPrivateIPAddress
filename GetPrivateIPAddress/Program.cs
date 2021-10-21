@@ -7,24 +7,21 @@ namespace GetPrivateIPAddress
     {
         static void Main(string[] args)
         {
-            string IPAddress = GetIPAddress();
-            System.Console.WriteLine(IPAddress);
-            Console.ReadLine();
+            Console.WriteLine(GetIPAddress());
         }
         public static string GetIPAddress()
         {
-            string IPAddress = string.Empty;
-            IPHostEntry Host = default(IPHostEntry);
-            string Hostname = null;
-            Hostname = System.Environment.MachineName;
-            Host = Dns.GetHostEntry(Hostname);
-            foreach (IPAddress IP in Host.AddressList)
+            string IPAddress = "";
+            IPAddress[] IPAdresses = Dns.GetHostAddresses(Dns.GetHostName());
+
+            foreach (var IP in IPAdresses)
             {
                 if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                 {
-                    IPAddress = Convert.ToString(IP);
+                    IPAddress = IP.ToString();
                 }
             }
+
             return IPAddress;
         }
     }
